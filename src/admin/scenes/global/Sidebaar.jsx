@@ -1,6 +1,7 @@
-import { useState } from "react";
+
+import { useState, useEffect } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
-import { Box, IconButton, Typography, useTheme } from "@mui/material";
+import { Box, IconButton, Typography, useTheme, useMediaQuery } from "@mui/material";
 import { Link } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
@@ -30,7 +31,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
       onClick={() => setSelected(title)}
       icon={icon}
     >
-      <Typography>{title}</Typography>
+      <Typography variant="body1">{title}</Typography>
       <Link to={to} />
     </MenuItem>
   );
@@ -39,8 +40,21 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 const Sidebaar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.between("sm", "md"));
+  const isLargeScreen = useMediaQuery(theme.breakpoints.up("md"));
+
+  const [isCollapsed, setIsCollapsed] = useState(isSmallScreen);
   const [selected, setSelected] = useState("Dashboard");
+
+  // Update isCollapsed based on screen size changes
+  useEffect(() => {
+    if (isSmallScreen) {
+      setIsCollapsed(true);
+    } else if (isMediumScreen || isLargeScreen) {
+      setIsCollapsed(false);
+    }
+  }, [isSmallScreen, isMediumScreen, isLargeScreen]);
 
   return (
     <Box
@@ -118,7 +132,6 @@ const Sidebaar = () => {
           )}
 
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
-
             <Item
               title="Dashboard"
               to="/admin"
@@ -126,7 +139,6 @@ const Sidebaar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-
             <Typography
               variant="h6"
               color={colors.grey[300]}
@@ -155,7 +167,6 @@ const Sidebaar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-
             <Typography
               variant="h6"
               color={colors.grey[300]}
@@ -184,29 +195,28 @@ const Sidebaar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-
             <Typography
               variant="h6"
               color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
             >
-              Charts
+              Sign
             </Typography>
             <Item
-              title="Bar Chart"
-              to="/admin/bar"
+              title="Sign In"
+              to="/admin/signin"
               icon={<BarChartOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Pie Chart"
-              to="/admin/pie"
+              title="Sign Up"
+              to="/admin/signup"
               icon={<PieChartOutlineOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
-            <Item
+            {/* <Item
               title="Line Chart"
               to="/admin/line"
               icon={<TimelineOutlinedIcon />}
@@ -219,16 +229,16 @@ const Sidebaar = () => {
               icon={<MapOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
-                        <Typography
+            /> */}
+            <Typography
               variant="h6"
               color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
             >
               Final
             </Typography>
-                    <Item
-              title="Homapage"
+            <Item
+              title="Homepage"
               to="/"
               icon={<AddHomeWorkIcon />}
               selected={selected}
