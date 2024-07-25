@@ -8,6 +8,7 @@ import Contact from '../home/pages/Contact';
 import Photos from '../home/pages/Photos';
 import Donate from '../home/pages/Donate';
 
+
 function UserLayout() {
   return (
     <div id="root">
@@ -19,6 +20,7 @@ function UserLayout() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/about" element={<About />} />
           <Route path="/donate" element={<Donate />} />
+
         </Routes>
       </div>
       <Footer />

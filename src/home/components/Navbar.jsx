@@ -55,6 +55,11 @@ function Navbar() {
                                     <span className="fa fa-heart mr-1"></span> Donate
                                 </Link>
                             </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/admin">
+                                    Login
+                                </Link>
+                            </li>
                         </ul>
                     </div>
                     <div className="mobile-position">
